@@ -69,33 +69,56 @@ switch ($action)
 
 	}
 	else{
-		$auteur=$_POST['auteur'];
-		$citation=$_POST['citation'];
-			if(!empty($auteur && $citation)){
-				$ouvrage=$_POST['ouvrage'];
-				$cit= $pdo->getCitation($citation);
-				if(empty($cit)){
-					$ok = $pdo->getAuteur($auteur);
-					if(empty($ok)){
-						$res= $pdo->ajouterAuteur($auteur);
-						$resAjoutCit=$pdo->ajouterCitation($auteur,$ouvrage,$citation);
-						$message= "citation ajouté";
-						include("vues/v_message.php");
-					}else{
-						$resAjoutCit=$pdo->ajouterCitation($auteur,$ouvrage,$citation);
-						$message= "citation ajouté";
-						include("vues/v_message.php");
-					}
+		// print_r($_POST);
+		$img1=$_POST['img1'];
+		$etab=$_POST['etablissement'];
+		$nomCrocheteuse=$_POST['nomCrocheteuse'];
+		$nomPieuvre=$_POST['nomPieuvre'];
+		$nbTenta=$_POST['nbTenta'];
 
-				}else{
-					$message= "il semblerait que la citation existe déjà";
-					include("vues/v_message.php");
+
+			if(!empty($img1 && $nomCrocheteuse && $nomPieuvre && $etab)){
+				$resC= $pdo->getCrocheteuse($nomCrocheteuse);
+				if(empty($resC)){
+					echo"ok";
+					 $pdo->ajouterCrocheteuse($nomCrocheteuse);
 				}
-			}else{
-				$message= "veuillez bien saisir les champs obligatoire" ;
-				include("vues/v_message.php");
-			}	
-				include("vues/v_ajoutCitation.php");
+				$resI1= $pdo->getImg1($img1);
+				if(empty($resI1)){
+					$pdo->ajouterImg1($img1);
+				}
+				$resE= $pdo->getEtab($etab);
+				if(empty($resE)){
+					$pdo->ajouterEtab($etab);
+				}
+				echo"ok";
+				$idImg1= $pdo->getIDImg1($img1);
+				$idEtab= $pdo->getIDEtab($etab);
+				$idCroche= $pdo->getIDCrocheteuse($nomCrocheteuse);
+				if(!empty($idImg1 && $idEtab && $idCroche)){
+					echo"ok";
+				$res= $pdo->ajouterPieuvre($nomPieuvre,$idCroche,$idImg1,$idEtab);
+				}
+			}
+
+		// 				$resAjoutCit=$pdo->ajouterCitation($auteur,$ouvrage,$citation);
+		// 				$message= "citation ajouté";
+		// 				include("vues/v_message.php");
+		// 			}else{
+		// 				$resAjoutCit=$pdo->ajouterCitation($auteur,$ouvrage,$citation);
+		// 				$message= "citation ajouté";
+		// 				include("vues/v_message.php");
+		// 			}
+
+		// 		}else{
+		// 			$message= "il semblerait que la citation existe déjà";
+		// 			include("vues/v_message.php");
+		// 		}
+		// 	}else{
+		// 		$message= "veuillez bien saisir les champs obligatoire" ;
+		// 		include("vues/v_message.php");
+		// 	}	
+		// 		include("vues/v_ajoutCitation.php");
 		}
 		break;
 	}

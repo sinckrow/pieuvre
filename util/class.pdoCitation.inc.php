@@ -3,9 +3,9 @@
 class PdoCitation
 {   		
 	private static $serveur='mysql:host=localhost';
-	private static $bdd='dbname=citation';   		
-	private static $user='root' ;    		
-	private static $mdp='' ;	
+	private static $bdd='dbname=pieuvre';   		
+	private static $user='pieuvre' ;    		
+	private static $mdp='unepieuvre12354' ;	
 	private static $monPdo;
 	private static $monPdoCitation = null;
 			
@@ -27,78 +27,81 @@ class PdoCitation
 			return PdoCitation::$monPdoCitation;  
 		}
 
-	public function getLesCitations()
+		public function getCrocheteuse($prenom)
 	{
-		$req="select * from citation";
-		$res = PdoCitation::$monPdo->query($req);
-		$lesLignes = $res->fetchAll();
-		return $lesLignes; 
-	}
-
-	public function getCitationDuJour()
-	{
-		$req="select * from citation";
-		$res = PdoCitation::$monPdo->query($req);
-		$lesLignes = $res->fetchAll();
-		return($lesLignes);
-	}
-
-	public function searchCitations($motCle,$auteur)
-	{
-		if($auteur=='tous auteurs'){
-			
-			$stmt = PdoCitation::$monPdo->prepare('SELECT * from citation where libelle like "%'.$motCle.'%"');
-		}else{
-			$stmt = PdoCitation::$monPdo->prepare('SELECT * from citation where libelle like "%'.$motCle.'%" AND auteur_nom="'.$auteur.'"');
-
-		}
+		$stmt = PdoCitation::$monPdo->prepare('SELECT * from crocheteuse where prenom="'.$prenom.'"');
 		$stmt->execute();
 		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $row; 
 	}
-
-	public function getCitation($id)
+	public function getIDCrocheteuse($prenom)
 	{
-		$stmt = PdoCitation::$monPdo->prepare('SELECT * from citation where id="'.$id.'"');
+		$stmt = PdoCitation::$monPdo->prepare('SELECT idCrocheteuse from crocheteuse where prenom="'.$prenom.'"');
 		$stmt->execute();
 		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $row; 
 	}
-
-
-	public function getAuteur($auteur)
+	public function ajouterCrocheteuse($prenom)
 	{
-		$stmt = PdoCitation::$monPdo->prepare('SELECT nom from auteur where nom="'.$auteur.'"');
+		$stmt = PdoCitation::$monPdo->prepare('INSERT into crocheteuse (prenom) values("'.$prenom.'")');
+		echo 'INSERT into crocheteuse (prenom) values("'.$prenom.'")';
 		$stmt->execute();
 		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $row;
 	}
 
-	public function getAuteurs()
+	public function getImg1($img1)
 	{
-		$stmt = PdoCitation::$monPdo->prepare('SELECT * FROM auteur ORDER BY nom ASC');
+		$stmt = PdoCitation::$monPdo->prepare('SELECT * from imagepieuvre where prenom="'.$img1.'"');
+		$stmt->execute();
+		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $row; 
+	}
+	public function getIDImg1($img1)
+	{
+		$stmt = PdoCitation::$monPdo->prepare('SELECT idImagePieuvre from imagepieuvre where prenom="'.$img1.'"');
+		$stmt->execute();
+		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $row; 
+	}
+	public function ajouterImg1($img1)
+	{
+		$stmt = PdoCitation::$monPdo->prepare('INSERT into imagepieuvre (imageP1) values("'.$img1.'")');
+		$stmt->execute();
+		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $row;
+	}
+		public function getEtab($etab)
+	{
+		$stmt = PdoCitation::$monPdo->prepare('SELECT * from etablissement where libelleEtab="'.$etab.'"');
+		$stmt->execute();
+		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $row; 
+	}
+	public function getIDEtab($etab)
+	{
+		$stmt = PdoCitation::$monPdo->prepare('SELECT idEtab from etablissement where prenom="'.$etab.'"');
+		$stmt->execute();
+		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $row; 
+	}
+	public function ajouterEtab($etab)
+	{
+		$stmt = PdoCitation::$monPdo->prepare('INSERT into etablissement (libelleEtab) values("'.$etab.'")');
+		$stmt->execute();
+		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $row;
+	}
+	public function ajouterPieuvre($nomPieuvre,$idCroche,$idImg1,$idEtab)
+	{
+		$stmt = PdoCitation::$monPdo->prepare('INSERT into pieuvre (nomPieuvre,etablissement_idEtab,imagePieuvre_idImagePieuvre,crocheteuse_idCrocheteuse) values("'.$nomPieuvre.'","'.$idEtab.'","'.$idImg1.'","'.$idCroche.'")');
+		echo 'INSERT into pieuvre (nomPieuvre,etablissement_idEtab,imagePieuvre_idImagePieuvre,crocheteuse_idCrocheteuse) values("'.$nomPieuvre.'","'.$idEtab.'","'.$idImg1.'","'.$idCroche.'")';
 		$stmt->execute();
 		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $row;
 	}
 
-
-
-	public function ajouterAuteur($auteur)
-	{
-		$stmt = PdoCitation::$monPdo->prepare('INSERT into auteur values("'.$auteur.'")');
-		$stmt->execute();
-		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
-		return $row;
-	}
-
-	public function ajouterCitation($auteur,$ouvrage,$citation)
-	{
-		$stmt = PdoCitation::$monPdo->prepare('INSERT into citation (libelle,auteur_nom,ouvrage) values ("'.$citation.'","'.$auteur.'","'.$ouvrage.'")');
-		$stmt->execute();
-		$row=$stmt->fetchAll(PDO::FETCH_ASSOC);
-		return $row;
-	}
+	
 
 	public function validerAdmin($user, $mdp)
 	{
@@ -110,23 +113,7 @@ class PdoCitation
 		
 	}
 
-	public function modifierCitation($id,$libelle,$auteur,$ouvrage)
-	{
-		$stmt = PdoCitation::$monPdo->prepare('UPDATE citation 
-			SET auteur_nom = "'.$auteur.'" , ouvrage="'.$ouvrage.'", libelle="'.$libelle.'"
-			WHERE id = "'.$id.'"');
-		$stmt->execute();
-
-		$row=$stmt->fetch(PDO::FETCH_ASSOC);
-
-		return $row;
-	}
-	public function suprCitation($idCit)
-	{
-		$sql= "DELETE FROM citation WHERE id = ".$idCit;
-		$res= PdoCitation::$monPdo->exec($sql);
-		return $res;
-	}
+	
 }
 
 ?>

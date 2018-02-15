@@ -9,7 +9,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script><link href="util/cssGeneral.css" rel="stylesheet" type="text/css">
 
 
-		<title>Belles citations</title>
+		<title>Pieuvre</title>
 		<meta http-equiv="Content-Language" content="fr">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		
