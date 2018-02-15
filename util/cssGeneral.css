@@ -1,0 +1,95 @@
+html {
+font:normal 100%/1.2em "Trebuchet MS",Verdana,Helvetica,Arial,sans-serif;
+}
+h1 {
+    text-align: center;
+}
+div#citations {
+    padding-left: 27%;
+}
+span {
+    font-size: 25px;
+}
+
+#produits{
+    margin-top: 26px;
+}
+td,th{
+    /*border:solid;*/
+    padding: 12px 5px 12px 19px;
+}
+
+td a {
+    text-align: center;
+    display: block;
+}
+
+input#search {
+    width: 88px;
+}
+
+#menu{
+height: 1.8em ;
+}
+
+#categories{
+float:left;
+}
+
+#produits{
+padding:0 150px;
+}
+
+#contenu{
+
+}
+
+#menu li {
+		list-style-type: none;
+		list-style-image:none;
+		float: left ; 
+		text-align: center;
+    width: 200px ; 
+    border: 1px solid #600 ; 
+    margin-right: 1px ; 
+    color: #fff ; 
+    background: #ccff11 ;
+}
+
+#menu li a , #categories li a {
+		text-decoration:none;
+}
+
+.message{ 
+   background-color:rgb(99, 184, 255);
+   color:rgb(0,0,205);
+   font-size:1.4em;
+}
+
+.message li { 
+   list-style-type: none; 
+}
+
+#categories li {
+		list-style-type: none;
+		list-style-image:none;
+		/*float:left; */
+    margin-right: 1px ;
+    border:1px solid #600;
+    width:100px;
+    text-align:center;
+background:#ccff11;
+}
+
+
+#produits li, #produits li a {
+		list-style-type: none;
+		list-style-image:none;
+		display:inline; 
+    width:175px;
+    text-align:center;
+    height:205px;
+    font: 1em "Trebuchet MS",Arial,sans-serif ;
+}
+
+
